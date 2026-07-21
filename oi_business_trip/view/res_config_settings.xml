@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="res_config_settings_view_form" model="ir.ui.view">
+		<field name="name">res.config.settings.view.form.inherit.business_trip</field>
+		<field name="model">res.config.settings</field>
+		<field name="inherit_id" ref="base.res_config_settings_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//form" position="inside">
+				<app name="oi_business_trip" data-string="Business Trip" string="Business Trip" groups="oi_business_trip.group_business_trip_manager">
+					<block title="HR Configuration" name="oi_business_trip_setting_container">
+						<setting>
+							<field name="business_trip_journal_id" string="Business Trip Journal" />
+							<span class="fa fa-lg fa-building-o p-2"
+                               title="Values set here are company-specific."
+                               groups="base.group_multi_company"/>
+						</setting>
+						<setting>
+							<field name="bt_approval_expense_id" string="Business Trip Expense Creation" />							
+							<span class="fa fa-lg fa-building-o p-2"
+                               title="Values set here are company-specific."
+                               groups="base.group_multi_company"/>
+							<div class="text-muted">Expenses are created after the approval of the selected stage.</div>
+						</setting>
+						<setting>
+							<field name="bt_expense_salary_rule" />
+						</setting>
+						<setting>
+							<field name="bt_has_days_limit" string="Set Business Trip Days Limit?"/>
+							<field name="bt_days_limit" string="Limit Per Year" required="bt_has_days_limit" invisible="not bt_has_days_limit"/>
+							<span class="text-muted" invisible="not bt_has_days_limit">Days Per Year</span>
+						</setting>
+						<setting>
+							<field name="bt_set_eligibility" string="Set Eligibility Period?"/>
+							<field name="bt_eligible_after" string="Eligible After" required="bt_set_eligibility" invisible="not bt_set_eligibility"/>
+							<span class="text-muted" invisible="not bt_set_eligibility">Days</span>
+						</setting>
+					</block>
+					<block title="Business Trip Form View" name="oi_business_trip_view_setting_container">
+						<setting>
+							<field name="hide_bt_analytic_account_id" />
+						</setting>
+						<setting>
+							<field name="hide_bt_completion_report" />
+						</setting>
+						<setting>
+							<field name="hide_bt_advance_payment" />
+						</setting>
+					</block>
+					<block title="Extra Features by OpenInside">
+						<setting>
+							<field name="module_oi_business_trip_exceptions"/>
+						</setting>
+					</block>
+				</app>
+			</xpath>
+		</field>		
+	</record>
+
+    <record id="action_bt_configuration" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'oi_business_trip', 'bin_size': False}</field>
+    </record>
+    
+    <menuitem id="menu_bt_config" name="Settings" action="action_bt_configuration" parent="oi_business_trip.menu_business_trip_config" groups="oi_business_trip.group_business_trip_manager" sequence="0"/>
+</odoo>

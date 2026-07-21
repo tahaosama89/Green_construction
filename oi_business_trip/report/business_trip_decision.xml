@@ -1,0 +1,80 @@
+<odoo>
+	<template id="business_trip_decision">
+		<t t-name="business_trip">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="web.internal_layout">
+				        <div class="page">
+							<h3 style="text-align:center">
+								<b>Business Trip Decision</b>
+								<br/>
+								<b><u>No. <span t-field="doc.name"/> date <span t-field="doc.date_from"/></u></b>
+							</h3>
+							<br/>
+							<br/>
+							<br/>
+							<p>The Executive Director of the company, based on the authorities vested in him by the regulations, and in the best interest of the organization, hereby decides the following:
+							<br/>
+							<br/>
+							<b>Firstly: </b>the business trip of the employee with the following information:</p>
+							<table class="table table-bordered" style="text-align:center">
+								<thead>
+									<tr>
+										<th>Employee Name</th>
+										<th>Employee Department</th>
+										<th>Name and location of the organization</th>
+										<th>City </th>
+										<th>Date of the visit</th>
+										
+										<th>Days of the Business Trip</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<span t-field="doc.employee_id.name"/>
+										</td>
+										<td>
+											<span t-field="doc.department_id.name"/>
+										</td>
+										<td>
+										  <span t-esc="doc.title" />
+										</td>
+										<td>
+										  <span t-esc="doc.city_id.name or doc.city" />
+										  <span t-if="doc.country_id.code !='SA' or not (doc.city_id.name or doc.city)" t-esc="' - %s' % doc.country_id.name" />
+										</td>
+										<td>
+										  <span t-field="doc.date_from"/>
+										</td>
+										
+										<td><span t-field="doc.number_of_days"/></td>	
+									</tr>
+								</tbody>
+							</table>
+							<p><b>Secondly: </b>Approval to payout their regular entitlements upon submission of the mission performance document.</p>
+							<p><b>Thirdly: </b>Our decision is communicated to the relevant parties for implementation.</p>
+							<br/>
+							<br/>
+							<br/>
+							<p style="text-align:center"><b>May Allah grant success,</b></p>
+							<br/>
+							<br/>
+							<p style="text-align:right"><b>The Executive Director</b></p>
+							<p style="text-align:right"><span class="badge badge-secondary">This decision is electronically approved.</span></p>
+				        </div>
+					</t>
+				</t>
+			</t>
+		</t>
+	</template>	
+	<record id="action_bt_decision_report" model="ir.actions.report">
+		<field name="name">Business Trip Decision</field>
+		<field name="model">business.trip</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">oi_business_trip.business_trip_decision</field>
+		<field name="report_file">oi_business_trip.business_trip_decision</field>
+		<field name="binding_model_id" ref="model_business_trip" />
+		<field name="binding_type">report</field>
+	</record>
+</odoo>

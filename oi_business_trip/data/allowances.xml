@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+	<record id="per_diem_allowance" model="business.trip.alw.config" forcecreate="False">
+		<field name="name">Per Diem Allowance</field>
+		<field name="title">Per Diem Allowance</field>
+		<field name="product_id" ref="bt_per_diem_allowance_product" />
+		<field name="code">result = record.total_days * 100</field>
+	</record>
+
+	<record id="ticket_allowance" model="business.trip.alw.config" forcecreate="False">
+		<field name="name">Ticket Allowance</field>
+		<field name="title">Ticket Allowance</field>
+		<field name="product_id" ref="bt_ticket_allowance_product" />
+		<field name="code">result = record.ticket_amount</field>
+	</record>
+	
+	<record id="visa_allowance" model="business.trip.alw.config" forcecreate="False">
+		<field name="name">Visa Allowance</field>
+		<field name="title">Visa Allowance</field>
+		<field name="product_id" ref="bt_visa_allowance_product" />
+		<field name="code">result = record.visa_amount</field>
+	</record>
+
+</odoo>

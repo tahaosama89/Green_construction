@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_account_asset_location_form" model="ir.ui.view">
+		<field name="name">account.asset.location.form</field>
+		<field name="model">account.asset.location</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check">
+							<field name="active" widget="boolean_button" options='{"terminology": "active"}' />
+						</button>
+						<button name="action_asset" type="object" class="oe_stat_button" icon="fa-laptop">
+							<field name="asset_count" string="Assets" widget="statinfo" />
+						</button>
+					</div>				
+					<group>
+						<group>
+							<field name="name" />
+							<field name="code" />
+						</group>
+						<group>
+							<field name="company_id" groups="base.group_multi_company"/>
+							<field name="account_asset_use_state_id" />
+							<field name="warehouse" />
+							<field name="scrap" />
+						</group>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_account_asset_location_tree" model="ir.ui.view">
+		<field name="name">account.asset.location.tree</field>
+		<field name="model">account.asset.location</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name" />
+				<field name="code" />
+				<field name="asset_count" />
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_account_asset_location_search" model="ir.ui.view">
+		<field name="name">account.asset.location.search</field>
+		<field name="model">account.asset.location</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name" filter_domain="['|', ('name','ilike', self), ('code','ilike', self)]" />
+				<field name="code" />			
+				<separator />
+				<filter name="warehouse" string="Warehouse" domain="[('warehouse','=', True)]" />		
+				<filter name="scrap" string="Scrap" domain="[('scrap','=', True)]" />
+			</search>
+		</field>
+	</record>
+
+</odoo>

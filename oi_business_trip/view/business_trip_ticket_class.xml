@@ -1,0 +1,54 @@
+<odoo>
+
+	<record id="view_business_trip_ticket_class_form" model="ir.ui.view">
+		<field name="name">business.trip.ticket.class.form</field>
+		<field name="model">business.trip.ticket.class</field>
+		<field name="arch" type="xml">
+		<!-- date valid_from -->
+			<form>
+				<sheet>
+					<widget name="web_ribbon" text="Archived" bg_color="bg-danger" invisible="active"/>
+					<group>
+						<group>
+						
+							<field name="name"/>
+							<field name="code"/>						
+						</group>
+						<group>
+							<field name="active"/>
+						</group>						
+					</group>
+					<group>
+						<field name="model_id" options="{'no_create': true, 'no_edit': true}" invisible="1"/>
+						<field name="model_name" invisible="1"/>
+						<field name="force_domain" widget="domain" options="{'model': 'model_name', 'in_dialog': False, 'foldable': True}"/>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_business_trip_ticket_class_tree" model="ir.ui.view">
+		<field name="name">business.trip.ticket.class.tree</field>
+		<field name="model">business.trip.ticket.class</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name"/>
+				<field name="code"/>
+				<field name="active"/>
+			</tree>
+		</field>
+	</record>
+	
+	<record id="view_business_trip_ticket_class_search" model="ir.ui.view">
+		<field name="name">business.trip.ticket.class.search</field>
+		<field name="model">business.trip.ticket.class</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name"/>
+				<field name="code"/>
+			</search>
+		</field>
+	</record>	
+
+</odoo>

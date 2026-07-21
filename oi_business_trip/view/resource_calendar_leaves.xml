@@ -1,0 +1,14 @@
+<odoo>
+    
+    <record id="resource_calendar_leave_form" model="ir.ui.view">
+        <field name="name">resource.calendar.leaves.form</field>
+        <field name="model">resource.calendar.leaves</field>
+        <field name="inherit_id" ref="resource.resource_calendar_leave_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="business_trip_id" invisible="not business_trip_id"/>
+            </field>
+        </field>
+    </record>
+    
+</odoo>

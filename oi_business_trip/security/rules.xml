@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+
+	<record id="rule_business_trip_emp" model="ir.rule">
+		<field name="name">Business Trip Employee</field>
+		<field name="model_id" ref="model_business_trip" />
+		<field name="groups" eval="[(4, ref('group_business_trip_emp'))]" />
+		<field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+	</record>
+
+	<record id="rule_business_trip_mng" model="ir.rule">
+		<field name="name">Business Trip Manager</field>
+		<field name="model_id" ref="model_business_trip" />
+		<field name="groups" eval="[(4, ref('group_business_trip_emp'))]" />
+		<field name="domain_force">[('employee_id', 'child_of', user.employee_ids.ids)]</field>
+	</record>
+		
+	<record id="rule_business_trip_officer" model="ir.rule">
+		<field name="name">Business Trip Officer</field>
+		<field name="model_id" ref="model_business_trip" />
+		<field name="groups" eval="[(4, ref('group_business_trip_officer'))]" />
+		<field name="domain_force">[(1,'=', 1)]</field>
+	</record>
+
+	<record id="rule_business_trip_multi_company" model="ir.rule">
+		<field name="name">Business Trip Multi Company</field>
+		<field name="model_id" ref="model_business_trip" />
+		<field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+	</record>
+	
+</odoo>

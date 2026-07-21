@@ -1,0 +1,25 @@
+<odoo>
+
+	<record id="hr_expense_view_form" model="ir.ui.view">
+		<field name="name">hr.expense.form</field>
+		<field name="model">hr.expense</field>
+		<field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+		<field name="arch" type="xml">
+			<field name="employee_id" position="after">
+				<field name="business_trip_id" invisible="not business_trip_id"/>
+			</field>
+		</field>
+	</record>
+
+	<record id="hr_expense_view_search" model="ir.ui.view">
+		<field name="name">hr.expense.view.search</field>
+		<field name="model">hr.expense</field>
+		<field name="inherit_id" ref="hr_expense.hr_expense_view_search"/>
+		<field name="arch" type="xml">
+			 <group position="inside">
+			 	<filter string="Business Trip" name="business_trip" context="{'group_by': 'business_trip_id'}"/>
+			 </group>
+		</field>
+	</record>
+	
+</odoo>

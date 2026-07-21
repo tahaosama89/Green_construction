@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record model="ir.ui.view" id="view_account_asset_asset_tree">
+		<field name="name">account.asset.asset.tree</field>
+		<field name="model">account.asset.use.state</field>
+		<field name="arch" type="xml">
+			<tree editable="bottom">
+				<field name="sequence" widget="handle" />
+				<field name="value" />
+				<field name="name" />
+				<field name="dispose" />
+			</tree>
+		</field>
+	</record>
+
+
+</odoo>

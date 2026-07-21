@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+	<menuitem id="menu_asset_tracking_root" name="Assets" web_icon="oi_account_asset_tracking,static/description/icon.png" groups="group_asset_tracking_user" />
+	
+	<menuitem id="menu_asset_asset" action="act_asset_tracking" parent="menu_asset_tracking_root" sequence="10" />
+	
+	<menuitem id="menu_asset_movement" action="act_asset_movement" parent="menu_asset_tracking_root" sequence="20" />
+	
+	<menuitem id="menu_asset_location" action="act_asset_location" parent="menu_asset_tracking_root" sequence="30" />	
+	
+	<menuitem id="menu_asset_tracking_config" name="Configuration" parent="menu_asset_tracking_root" sequence="999" groups="base.group_system" />	
+	
+	<menuitem id="menu_account_asset_attribute" action="act_account_asset_attribute" parent="menu_asset_tracking_config" sequence="10" />
+	
+	<menuitem id="menu_account_asset_use_state" action="act_account_asset_use_state" parent="account.account_management_menu" sequence="10" />
+
+</odoo>

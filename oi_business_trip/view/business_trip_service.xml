@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_business_trip_service_tree" model="ir.ui.view">
+		<field name="name">business.trip.service.tree</field>
+		<field name="model">business.trip.service</field>
+		<field name="arch" type="xml">
+			<tree editable="bottom">
+				<field name="sequence" widget="handle"/>
+				<field name="name"/>
+				<field name="code"/>
+				<field name="default"/>
+				<field name="business_trip"/>
+				<field name="active"/>
+			</tree>
+		</field>
+	</record>
+	
+	<record id="view_business_trip_service_search" model="ir.ui.view">
+		<field name="name">business.trip.service.search</field>
+		<field name="model">business.trip.service</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name"/>
+				<filter name="inactive" string="Archived" domain="[('active','=', False)]"/>
+			</search>
+		</field>
+	</record>	
+
+</odoo>

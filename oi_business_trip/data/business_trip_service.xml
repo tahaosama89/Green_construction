@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+	<record id="service_ticket" model="business.trip.service">
+		<field name="name">Ticket</field>
+		<field name="code">ticket</field>
+		<field name="default" eval="True" />
+	</record>
+
+	<record id="service_car_travel" model="business.trip.service">
+		<field name="name">Car Travel</field>
+		<field name="code">car_travel</field>
+	</record>
+	
+	<record id="service_car_rental" model="business.trip.service">
+		<field name="name">Car Rental</field>
+		<field name="code">car_rental</field>
+	</record>	
+	
+	<record id="service_hotel" model="business.trip.service">
+		<field name="name">Hotel</field>
+		<field name="code">hotel</field>
+		<field name="default" eval="True" />
+	</record>
+
+	<record id="service_visa" model="business.trip.service">
+		<field name="name">Visa</field>
+		<field name="code">visa</field>
+		<field name="default" eval="True" />
+	</record>
+	
+	<record id="service_food" model="business.trip.service">
+		<field name="name">Food</field>
+		<field name="code">food</field>
+	</record>
+	
+</odoo>

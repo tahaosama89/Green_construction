@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+	<record id="event_type_business_trip" model="calendar.event.type" forcecreate="False">
+		<field name="name">Business Trip</field>
+	</record>
+
+</odoo>

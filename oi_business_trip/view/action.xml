@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="act_business_trip_service" model="ir.actions.act_window">
+		<field name="name">Business Trip Services</field>
+		<field name="res_model">business.trip.service</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<record id="act_business_trip" model="ir.actions.act_window">
+		<field name="name">Business Trip</field>
+		<field name="res_model">business.trip</field>
+		<field name="view_mode">tree,kanban,form</field>
+	</record>
+	
+	<record id="act_business_trip_approval" model="ir.actions.act_window">
+		<field name="name">To Approve</field>
+		<field name="res_model">business.trip</field>
+		<field name="view_mode">tree,kanban,form</field>
+		<field name="context">{'search_default_my_approval' : 1}</field>
+	</record>	
+
+	<record id="act_business_trip_alw_config" model="ir.actions.act_window">
+		<field name="name">Allowances</field>
+		<field name="res_model">business.trip.alw.config</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<record id="act_view_country_group" model="ir.actions.act_window">
+		<field name="name">Country Group</field>
+		<field name="res_model">res.country.group</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_country_group_search" />
+		<field name="context">{'search_default_business_trip' : 1, 'default_business_trip' : True}</field>
+		<field name="view_ids" eval="[ (5,),
+			(0,0, { 'sequence' : 1, 'view_mode' : 'tree', 'view_id' : ref('view_country_group_tree')}),
+			(0,0, { 'sequence' : 2, 'view_mode' : 'form', 'view_id' : ref('view_country_group_form')})
+		]" />
+	</record>
+	
+	<record id="act_business_trip_ticket_class" model="ir.actions.act_window">
+		<field name="name">Ticket Class</field>
+		<field name="res_model">business.trip.ticket.class</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	
+</odoo>

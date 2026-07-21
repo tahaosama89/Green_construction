@@ -1,0 +1,102 @@
+<odoo>
+
+        <record id="view_tender_item_kanban" model="ir.ui.view">
+            <field name="name">item</field>
+            <field name="model">tender.item</field>
+            <field name="arch" type="xml">
+                <kanban sample="1" class="o_kanban_item_templates">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_image me-1">
+                                    <field name="image" widget="image"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <div class="o_kanban_record_top mb-0">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                Name:
+                                                <field name="name"/>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div name="job_id" class="mt-1">
+                                        Related Job:
+                                        <field name="job_id"/>
+                                    </div>
+                                    <div name="uom" class="mt-1">
+                                        Unit Of Measure:
+                                        <field name="uom_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- Define a view for the tender_item form -->
+        <record model="ir.ui.view" id="view_tender_item_form">
+            <field name="name">view.tender.item.form</field>
+            <field name="model">tender.item</field>
+            <field name="arch" type="xml">
+                <form create="0">
+                    <sheet>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="job_id"/>
+                                <field name="uom_id"/>
+                                <field name="code"/>
+                                <field name="repeated"/>
+                                <field name="analytic_tag" widget="many2many_tags"/>
+                                <field name="related_product_id"/>
+
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- define a tree view tender_item -->
+        <record model="ir.ui.view" id="view_tender_item_tree">
+            <field name="name">item.tree</field>
+            <field name="model">tender.item</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="job_id"/>
+                    <field name="uom_id"/>
+                    <field name="code"/>
+                    <field name="repeated"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_tender_item_search">
+            <field name="name">item.search</field>
+            <field name="model">tender.item</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" filter_domain="[('name','ilike',self)]"/>
+                    <field name="job_id" filter_domain="[('job_id','ilike',self)]"/>
+
+                    <group expand="0" string="Group By">
+                        <filter string="Related Job" name="group_by_cjob_id"
+                                context="{'group_by': 'job_id'}"/>
+                    </group>
+                    <searchpanel>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+        <!-- define the tender_item-->
+        <record model="ir.actions.act_window" id="tender_item_action">
+            <field name="name">Tender Item</field>
+            <field name="res_model">tender.item</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+</odoo>

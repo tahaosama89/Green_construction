@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="nthub_constructions_category" model="ir.module.category">
+            <field name="name">Constructions</field>
+            <field name="sequence" eval="1"/>
+            <field name="description">Module category for Construction</field>
+            <field name="parent_id" eval="False"/>
+        </record>
+
+        <record id="construction_group_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="nthub_constructions.nthub_constructions_category"/>
+        </record>
+
+        <record id="construction_group_officer" model="res.groups">
+            <field name="name">Officer</field>
+            <field name="category_id" ref="nthub_constructions.nthub_constructions_category"/>
+            <field name="implied_ids" eval="[(4, ref('construction_group_user'))]"/>
+        </record>
+
+        <record id="construction_group_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="nthub_constructions.nthub_constructions_category"/>
+            <field name="implied_ids" eval="[(4, ref('construction_group_officer'))]"/>
+        </record>
+
+        <record id="construction_group_wbs" model="res.groups">
+            <field name="name">WBS Manager</field>
+            <field name="category_id" ref="nthub_constructions.nthub_constructions_category"/>
+        </record>
+    </data>
+</odoo>

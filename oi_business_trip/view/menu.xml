@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<menuitem id="menu_business_trip_root" name="Traveler" web_icon="oi_business_trip,static/description/icon.png" />
+	
+	<menuitem id="menu_business_trip" action="act_business_trip" parent="menu_business_trip_root" sequence="10" />
+	
+	<menuitem id="menu_business_trip_approval" action="act_business_trip_approval" parent="menu_business_trip_root" sequence="20" />
+	
+	<menuitem id="menu_business_trip_config" name="Configuration" parent="menu_business_trip_root" sequence="999" groups="group_business_trip_manager" />
+	
+	<menuitem id="menu_business_trip_service" action="act_business_trip_service" parent="menu_business_trip_config" sequence="10"  />
+	
+	<menuitem id="menu_business_trip_alw_config" action="act_business_trip_alw_config" parent="menu_business_trip_config" sequence="20" />
+	
+	<menuitem id="menu_view_country_group" action="act_view_country_group" parent="menu_business_trip_config" sequence="30" />
+	
+	<menuitem id="menu_country" action="base.action_country" parent="menu_business_trip_config" sequence="40" />
+	
+	<menuitem id="menu_city" action="base_address_extended.action_res_city_tree" parent="menu_business_trip_config" sequence="50" />
+	
+	<menuitem id="menu_business_trip_ticket_class" action="act_business_trip_ticket_class" parent="menu_business_trip_config" sequence="60" />
+	
+</odoo>

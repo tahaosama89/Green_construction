@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+	<record id="first_ticket_class" model="business.trip.ticket.class" forcecreate="False">
+		<field name="name">First</field>
+		<field name="code">FST</field>
+	</record>
+
+	<record id="business_ticket_class" model="business.trip.ticket.class" forcecreate="False">
+		<field name="name">Business</field>
+		<field name="code">BUS</field>
+	</record>
+
+	<record id="economy_ticket_class" model="business.trip.ticket.class" forcecreate="False">
+		<field name="name">Economy</field>
+		<field name="code">ECO</field>
+	</record>
+
+</odoo>

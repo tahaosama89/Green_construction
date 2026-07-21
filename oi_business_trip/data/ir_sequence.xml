@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+	<record id="seq_business_trip" model="ir.sequence" forcecreate="False">
+		<field name="name">Business Trip</field>
+		<field name="code">business.trip</field>
+		<field name="padding">4</field>
+		<field name="prefix">BT</field>
+		<field name="company_id" eval="False" />
+	</record>
+
+</odoo>
