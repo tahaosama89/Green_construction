@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Report Action -->
+        <record id="action_report_material_request" model="ir.actions.report">
+            <field name="name">Material Request</field>
+            <field name="model">construction.material.request</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">nthub_constructions.report_material_request_template</field>
+            <field name="report_file">nthub_constructions.report_material_request_template</field>
+            <field name="binding_model_id" ref="model_construction_material_request"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- QWeb Template -->
+        <template id="report_material_request_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+
+                            <!-- ── Title ─────────────────────────────── -->
+                            <div class="text-center" style="margin-bottom: 20px;">
+                                <h2 style="background-color: #2c6e49; color: #ffffff;
+                                           padding: 10px 20px; border-radius: 4px;">
+                                    Material Request —
+                                    <span t-field="doc.name"/>
+                                </h2>
+                            </div>
+
+                            <!-- ── Header Info ────────────────────────── -->
+                            <h3 style="color: #2c6e49; border-bottom: 2px solid #2c6e49; padding-bottom: 4px;">
+                                Request Information
+                            </h3>
+                            <table class="table table-sm table-bordered" style="margin-bottom: 20px;">
+                                <tbody>
+                                    <tr>
+                                        <td style="width:25%; background:#f5f5f5;">
+                                            <strong>Reference</strong>
+                                        </td>
+                                        <td style="width:25%;">
+                                            <span t-field="doc.name"/>
+                                        </td>
+                                        <td style="width:25%; background:#f5f5f5;">
+                                            <strong>Status</strong>
+                                        </td>
+                                        <td style="width:25%;">
+                                            <span t-field="doc.state"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background:#f5f5f5;">
+                                            <strong>Request Date</strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="doc.request_date"/>
+                                        </td>
+                                        <td style="background:#f5f5f5;">
+                                            <strong>Required By</strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="doc.required_date"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background:#f5f5f5;">
+                                            <strong>Requested By</strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="doc.employee_id.name"/>
+                                        </td>
+                                        <td style="background:#f5f5f5;">
+                                            <strong>Department</strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="doc.department_id.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background:#f5f5f5;">
+                                            <strong>Project</strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="doc.project_id.name"/>
+                                        </td>
+                                        <td style="background:#f5f5f5;">
+                                            <strong>Contract</strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="doc.contract_id.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background:#f5f5f5;">
+                                            <strong>WBS</strong>
+                                        </td>
+                                        <td colspan="3">
+                                            <span t-field="doc.wbs_id.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="doc.reason">
+                                        <td style="background:#f5f5f5;">
+                                            <strong>Reason</strong>
+                                        </td>
+                                        <td colspan="3">
+                                            <span t-field="doc.reason"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- ── Material Lines ─────────────────────── -->
+                            <t t-if="doc.line_ids">
+                                <h3 style="color: #2c6e49; border-bottom: 2px solid #2c6e49; padding-bottom: 4px;">
+                                    Material Lines
+                                </h3>
+                                <table class="table table-sm table-bordered" style="margin-bottom: 20px;">
+                                    <thead style="background-color: #2c6e49; color: #ffffff;">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Product</th>
+                                            <th>Description</th>
+                                            <th class="text-right">Qty</th>
+                                            <th>UoM</th>
+                                            <th class="text-right">Unit Cost</th>
+                                            <th class="text-right">Total Cost</th>
+                                            <th>Type</th>
+                                            <th>Vendor(s)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="doc.line_ids" t-as="line">
+                                            <tr>
+                                                <td>
+                                                    <span t-esc="line_index + 1"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="line.product_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="line.description"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="line.qty"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="line.uom_id"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="line.unit_cost"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="line.total_cost"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="line.request_type"/>
+                                                </td>
+                                                <td>
+                                                    <t t-foreach="line.partner_ids" t-as="p">
+                                                        <span t-esc="p.name"/>
+                                                        <t t-if="not p_last">, </t>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr style="background:#f5f5f5; font-weight: bold;">
+                                            <td colspan="6" class="text-right">
+                                                <strong>Total Estimated Cost</strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="doc.total_cost"/>
+                                            </td>
+                                            <td colspan="2"/>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </t>
+
+                            <!-- ── Approval Trail ────────────────────── -->
+                            <h3 style="color: #2c6e49; border-bottom: 2px solid #2c6e49; padding-bottom: 4px;">
+                                Approval Trail
+                            </h3>
+                            <table class="table table-sm table-bordered" style="margin-bottom: 20px;">
+                                <tbody>
+                                    <tr>
+                                        <td style="width:33%; background:#f5f5f5;">
+                                            <strong>Confirmed by</strong>
+                                        </td>
+                                        <td style="width:33%;">
+                                            <span t-field="doc.confirmed_by_id.name"/>
+                                            <t t-if="doc.confirm_date">
+                                                &amp;nbsp;on&amp;nbsp;
+                                                <span t-field="doc.confirm_date"/>
+                                            </t>
+                                        </td>
+                                        <td/>
+                                    </tr>
+                                    <tr>
+                                        <td style="background:#f5f5f5;">
+                                            <strong>Dept. Approved by</strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="doc.dept_approved_by_id.name"/>
+                                            <t t-if="doc.dept_approve_date">
+                                                &amp;nbsp;on&amp;nbsp;
+                                                <span t-field="doc.dept_approve_date"/>
+                                            </t>
+                                        </td>
+                                        <td/>
+                                    </tr>
+                                    <tr>
+                                        <td style="background:#f5f5f5;">
+                                            <strong>Finally Approved by</strong>
+                                        </td>
+                                        <td>
+                                            <span t-field="doc.approved_by_id.name"/>
+                                            <t t-if="doc.approve_date">
+                                                &amp;nbsp;on&amp;nbsp;
+                                                <span t-field="doc.approve_date"/>
+                                            </t>
+                                        </td>
+                                        <td/>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- ── Signatures ────────────────────────── -->
+                            <br/>
+                            <table class="table" style="margin-top: 40px;">
+                                <tr>
+                                    <td style="width:33%; text-align:center; padding-top:50px; border-top: 1px solid #999;">
+                                        <strong>Requested By</strong><br/>
+                                        <span t-field="doc.employee_id.name"/>
+                                    </td>
+                                    <td style="width:33%; text-align:center; padding-top:50px; border-top: 1px solid #999;">
+                                        <strong>Department Manager</strong><br/>
+                                        <span t-field="doc.dept_approved_by_id.name"/>
+                                    </td>
+                                    <td style="width:33%; text-align:center; padding-top:50px; border-top: 1px solid #999;">
+                                        <strong>Procurement Manager</strong><br/>
+                                        <span t-field="doc.approved_by_id.name"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

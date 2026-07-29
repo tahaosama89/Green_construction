@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ══════════════════════════════════════════════════════════════
+         SEARCH VIEW
+    ══════════════════════════════════════════════════════════════ -->
+    <record id="view_construction_material_request_search" model="ir.ui.view">
+        <field name="name">construction.material.request.search</field>
+        <field name="model">construction.material.request</field>
+        <field name="arch" type="xml">
+            <search string="Search Material Requests">
+                <field name="name" string="Reference"/>
+                <field name="project_id"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="state"/>
+                <filter string="My Requests" name="my_requests"
+                        domain="[('employee_id.user_id', '=', uid)]"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state', '=', 'confirm')]"/>
+                <filter string="Dept. Approval" name="dept_approve"
+                        domain="[('state', '=', 'dept_approve')]"/>
+                <filter string="Approved" name="approved" domain="[('state', '=', 'approve')]"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter string="Cancelled" name="cancelled" domain="[('state', '=', 'cancel')]"/>
+                <filter string="Rejected" name="rejected" domain="[('state', '=', 'reject')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Project" name="group_project"
+                            context="{'group_by': 'project_id'}"/>
+                    <filter string="Department" name="group_department"
+                            context="{'group_by': 'department_id'}"/>
+                    <filter string="Status" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Request Date" name="group_date"
+                            context="{'group_by': 'request_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         TREE VIEW
+    ══════════════════════════════════════════════════════════════ -->
+    <record id="view_construction_material_request_tree" model="ir.ui.view">
+        <field name="name">construction.material.request.tree</field>
+        <field name="model">construction.material.request</field>
+        <field name="arch" type="xml">
+            <tree string="Material Requests" decoration-success="state == 'done'"
+                  decoration-info="state in ('confirm','dept_approve')"
+                  decoration-warning="state == 'approve'"
+                  decoration-danger="state in ('cancel','reject')"
+                  decoration-muted="state == 'draft'">
+                <field name="name"/>
+                <field name="request_date"/>
+                <field name="required_date"/>
+                <field name="project_id"/>
+                <field name="contract_id"/>
+                <field name="wbs_id"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="total_cost" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-info="state in ('confirm','dept_approve')"
+                       decoration-warning="state == 'approve'"
+                       decoration-danger="state in ('cancel','reject')"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         FORM VIEW
+    ══════════════════════════════════════════════════════════════ -->
+    <record id="view_construction_material_request_form" model="ir.ui.view">
+        <field name="name">construction.material.request.form</field>
+        <field name="model">construction.material.request</field>
+        <field name="arch" type="xml">
+            <form string="Material Request">
+                <!-- ── Header ───────────────────────────────────── -->
+                <header>
+                    <!-- Confirm (Draft → Confirmed) -->
+                    <button name="action_confirm" type="object"
+                            string="Confirm"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+
+                    <!-- Dept. Approve (Confirmed → Dept. Approval) -->
+                    <button name="action_dept_approve" type="object"
+                            string="Dept. Approve"
+                            class="btn-primary"
+                            groups="nthub_constructions.construction_group_officer"
+                            invisible="state != 'confirm'"/>
+
+                    <!-- Final Approve (Dept. Approval → Approved) -->
+                    <button name="action_approve" type="object"
+                            string="Approve"
+                            class="btn-primary"
+                            groups="nthub_constructions.construction_group_manager"
+                            invisible="state != 'dept_approve'"/>
+
+                    <!-- Generate PO / Picking (Approved) -->
+                    <button name="action_create_orders" type="object"
+                            string="Generate Orders"
+                            class="btn-success"
+                            groups="nthub_constructions.construction_group_officer"
+                            invisible="state != 'approve'"/>
+
+                    <!-- Mark Done -->
+                    <button name="action_done" type="object"
+                            string="Mark as Done"
+                            class="btn-primary"
+                            groups="nthub_constructions.construction_group_manager"
+                            invisible="state != 'approve'"/>
+
+                    <!-- Reject -->
+                    <button name="action_reject" type="object"
+                            string="Reject"
+                            class="btn-danger"
+                            groups="nthub_constructions.construction_group_officer"
+                            invisible="state not in ('confirm','dept_approve')"/>
+
+                    <!-- Cancel -->
+                    <button name="action_cancel" type="object"
+                            string="Cancel"
+                            invisible="state in ('done','cancel','reject')"/>
+
+                    <!-- Reset to Draft -->
+                    <button name="action_reset_draft" type="object"
+                            string="Reset to Draft"
+                            invisible="state not in ('cancel','reject')"/>
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirm,dept_approve,approve,done"/>
+                </header>
+
+                <!-- ── Sheet ────────────────────────────────────── -->
+                <sheet>
+                    <!-- Smart Buttons -->
+                    <div name="button_box" class="oe_button_box">
+                        <button name="action_view_purchase_orders" type="object"
+                                class="oe_stat_button" icon="fa-shopping-cart"
+                                invisible="purchase_order_count == 0">
+                            <field name="purchase_order_count" widget="statinfo"
+                                   string="Purchase Orders"/>
+                        </button>
+                        <button name="action_view_pickings" type="object"
+                                class="oe_stat_button" icon="fa-truck"
+                                invisible="picking_count == 0">
+                            <field name="picking_count" widget="statinfo"
+                                   string="Pickings"/>
+                        </button>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <!-- Main fields -->
+                    <group>
+                        <group string="Request Information">
+                            <field name="request_date"
+                                   readonly="state not in ('draft',)"/>
+                            <field name="required_date"
+                                   readonly="state not in ('draft','confirm')"/>
+                            <field name="employee_id"
+                                   readonly="state not in ('draft',)"/>
+                            <field name="department_id"
+                                   readonly="state not in ('draft',)"/>
+                            <field name="company_id" groups="base.group_multi_company"
+                                   readonly="state not in ('draft',)"/>
+                        </group>
+                        <group string="Construction Links">
+                            <field name="project_id"
+                                   readonly="state not in ('draft',)"/>
+                            <field name="contract_id"
+                                   readonly="state not in ('draft',)"/>
+                            <field name="wbs_id"
+                                   readonly="state not in ('draft',)"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <field name="reason" placeholder="Reason / Justification..."
+                               readonly="state not in ('draft',)"/>
+                    </group>
+
+                    <!-- Notebook -->
+                    <notebook>
+                        <!-- Tab 1: Material Lines -->
+                        <page string="Material Lines" name="lines">
+                            <field name="line_ids" readonly="state not in ('draft','confirm')">
+                                <tree editable="bottom" string="Material Lines">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="qty"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_cost"/>
+                                    <field name="total_cost" readonly="1" sum="Total Cost"/>
+                                    <field name="request_type"/>
+                                    <field name="partner_ids" widget="many2many_tags"
+                                           invisible="request_type != 'purchase'"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                            <!-- Totals -->
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="total_cost" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"
+                                       readonly="1" force_save="1"/>
+                            </group>
+                            <field name="currency_id" invisible="1"/>
+                        </page>
+
+                        <!-- Tab 2: Picking Details (for internal lines) -->
+                        <page string="Picking Details" name="picking">
+                            <group>
+                                <group>
+                                    <field name="location_id"
+                                           readonly="state not in ('draft','confirm')"/>
+                                    <field name="dest_location_id"
+                                           readonly="state not in ('draft','confirm')"/>
+                                    <field name="picking_type_id"
+                                           readonly="state not in ('draft','confirm')"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- Tab 3: Approval Trail -->
+                        <page string="Approval Trail" name="approvals">
+                            <group>
+                                <group string="Confirmation">
+                                    <field name="confirmed_by_id" readonly="1"/>
+                                    <field name="confirm_date" readonly="1"/>
+                                </group>
+                                <group string="Department Approval">
+                                    <field name="dept_approved_by_id" readonly="1"/>
+                                    <field name="dept_approve_date" readonly="1"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Final Approval">
+                                    <field name="approved_by_id" readonly="1"/>
+                                    <field name="approve_date" readonly="1"/>
+                                </group>
+                                <group string="Rejection / Cancellation">
+                                    <field name="rejected_by_id" readonly="1"/>
+                                    <field name="reject_date" readonly="1"/>
+                                    <field name="reject_reason" readonly="1"/>
+                                    <field name="done_date" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <!-- Chatter -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         ACTION
+    ══════════════════════════════════════════════════════════════ -->
+    <record id="action_construction_material_request" model="ir.actions.act_window">
+        <field name="name">Material Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">construction.material.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_construction_material_request_search"/>
+        <field name="context">{'search_default_my_requests': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Material Request
+            </p>
+            <p>
+                Use Material Requests to request materials from stock or vendors
+                for your construction projects.
+            </p>
+        </field>
+    </record>
+
+</odoo>

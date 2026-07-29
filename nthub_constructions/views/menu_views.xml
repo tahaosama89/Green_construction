@@ -39,6 +39,13 @@
         <menuitem id="subcontractor_delivery_request_menu_action" parent="completion_request_menu"
                   action="subcontractor_delivery_request_action" name="Subcontract Delivery Requests" sequence="2"/>
 
+        <!-- ── Material Requests ──────────────────────────────────────────── -->
+        <menuitem id="material_request_menu" name="Material Requests"
+                  parent="constructions_root_menu"
+                  action="nthub_constructions.action_construction_material_request"
+                  groups="nthub_constructions.construction_group_user"
+                  sequence="5"/>
+
         <!-- This Menu Item Must have a parent -->
         <menuitem id="constructions_category_menu" name="Configuration" parent="constructions_root_menu"
                   groups="nthub_constructions.construction_group_manager"

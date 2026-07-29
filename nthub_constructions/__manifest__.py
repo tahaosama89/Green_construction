@@ -31,7 +31,7 @@
     'currency': 'USD',
     'website': 'https://www.neoterichub.com',
 
-    'depends': ['hr', 'account', 'purchase', 'product', 'project', 'contacts', 'hr_expense', 'board'],
+    'depends': ['hr', 'account', 'purchase', 'product', 'project', 'contacts', 'hr_expense', 'board', 'stock', 'uom'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
@@ -69,6 +69,9 @@
         'report/hr_expense_report.xml',
         'report/contract_report.xml',
         'report/completion_request_report.xml',
+        'data/material_request_sequence.xml',
+        'views/material_request.xml',
+        'report/material_request_report.xml',
     ],
     'demo': [
         'demo/demo.xml',

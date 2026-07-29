@@ -17,3 +17,6 @@ from . import project_extras
 from . import wbs_job_cost
 from . import hr_expense
 from . import subcontractor
+from . import material_request
+from . import material_request_line
+from . import material_request_extension
